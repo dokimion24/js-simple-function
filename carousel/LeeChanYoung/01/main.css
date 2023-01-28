@@ -1,0 +1,26 @@
+.item-container {
+  height: 350px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+.item-list {
+  display: flex;
+  gap: 20px;
+  overflow: hidden;
+}
+
+.item {
+  list-style: none;
+  border: 1px solid;
+  text-align: center;
+}
+
+.item img {
+  width: 250px;
+  height: 200px;
+  object-fit: cover;
+}
