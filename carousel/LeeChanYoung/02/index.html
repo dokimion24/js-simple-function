@@ -1,62 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <style>
-        .card {
-            font-size: 34px;
-            height: 300px;
-            width: 200px;
-            border-radius: 5px;
-        }
+    <link rel="stylesheet" href="main.css" />
+  </head>
 
-        .card:nth-child(odd) {
-            background-color: blue;
-        }
-
-        .card:nth-child(even) {
-            background-color: rgb(0, 183, 255);
-        }
-
-        .slider-container {
-            width: 630px;
-            height: 350px;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            overflow: hidden;
-        }
-
-        .inner-slider {
-            display: flex;
-            gap: 10px;
-            pointer-events: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            transition: all 0.2s ease;
-
-        }
-    </style>
-</head>
-
-<body>
+  <body>
     <div class="slider-container">
-        <div class="inner-slider">
-            <div class="card">1</div>
-            <div class="card">2</div>
-            <div class="card">3</div>
-            <div class="card">4</div>
-            <div class="card">5</div>
-            <div class="card">6</div>
-        </div>
+      <div class="inner-slider">
+        <div class="card">1</div>
+        <div class="card">2</div>
+        <div class="card">3</div>
+        <div class="card">4</div>
+        <div class="card">5</div>
+        <div class="card">6</div>
+      </div>
     </div>
-    <script src="main.js"></script>
-</body>
 
+    <script src="main.js"></script>
+  </body>
 </html>
