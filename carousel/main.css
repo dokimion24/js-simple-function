@@ -1,0 +1,41 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img {
+  width: 100%;
+  height: 80%;
+}
+
+.slide-container {
+  width: 630px;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(10, 250px);
+  gap: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.item {
+  height: 300px;
+  border-radius: 10px;
+  border: 1px solid;
+  overflow: hidden;
+}
