@@ -1,85 +1,119 @@
-const carousel = document.querySelector('.carousel'),
-  firstImg = carousel.querySelectorAll('img')[0],
-  arrowIcons = document.querySelectorAll('.wrapper i');
+/*--------------------
+Vars
+--------------------*/
+const $menu = document.querySelector('.menu')
+const $items = document.querySelectorAll('.menu--item')
+const $images = document.querySelectorAll('.menu--item img')
+let menuWidth = $menu.clientWidth
+let itemWidth = $items[0].clientWidth
+let wrapWidth = $items.length * itemWidth
 
-let isDragStart = false,
-  isDragging = false,
-  prevPageX,
-  prevScrollLeft,
-  positionDiff;
+let scrollSpeed = 0
+let oldScrollY = 0
+let scrollY = 0
+let y = 0
 
-const showHideIcons = () => {
-  // showing and hiding prev/next icon according to carousel scroll left value
-  let scrollWidth = carousel.scrollWidth - carousel.clientWidth; // getting max scrollable width
-  arrowIcons[0].style.display = carousel.scrollLeft == 0 ? 'none' : 'block';
-  arrowIcons[1].style.display =
-    carousel.scrollLeft == scrollWidth ? 'none' : 'block';
-};
 
-arrowIcons.forEach((icon) => {
-  icon.addEventListener('click', () => {
-    let firstImgWidth = firstImg.clientWidth + 14; // getting first img width & adding 14 margin value
-    // if clicked icon is left, reduce width value from the carousel scroll left else add to it
-    carousel.scrollLeft += icon.id == 'left' ? -firstImgWidth : firstImgWidth;
-    setTimeout(() => showHideIcons(), 60); // calling showHideIcons after 60ms
-  });
-});
+/*--------------------
+Lerp
+--------------------*/
+const lerp = (v0, v1, t) => {
+  return v0 * ( 1 - t ) + v1 * t
+}
 
-const autoSlide = () => {
-  // if there is no image left to scroll then return from here
-  if (
-    carousel.scrollLeft - (carousel.scrollWidth - carousel.clientWidth) > -1 ||
-    carousel.scrollLeft <= 0
-  )
-    return;
 
-  positionDiff = Math.abs(positionDiff); // making positionDiff value to positive
-  let firstImgWidth = firstImg.clientWidth + 14;
-  // getting difference value that needs to add or reduce from carousel left to take middle img center
-  let valDifference = firstImgWidth - positionDiff;
+/*--------------------
+Dispose
+--------------------*/
+const dispose = (scroll) => {
+  gsap.set($items, {
+    x: (i) => {
+      return i * itemWidth + scroll
+    },
+    modifiers: {
+      x: (x, target) => {
+        const s = gsap.utils.wrap(-itemWidth, wrapWidth - itemWidth, parseInt(x))
+        return `${s}px`
+      }
+    }
+  })
+} 
+dispose(0)
 
-  if (carousel.scrollLeft > prevScrollLeft) {
-    // if user is scrolling to the right
-    return (carousel.scrollLeft +=
-      positionDiff > firstImgWidth / 3 ? valDifference : -positionDiff);
-  }
-  // if user is scrolling to the left
-  carousel.scrollLeft -=
-    positionDiff > firstImgWidth / 3 ? valDifference : -positionDiff;
-};
 
-const dragStart = (e) => {
-  // updatating global variables value on mouse down event
-  isDragStart = true;
-  prevPageX = e.pageX || e.touches[0].pageX;
-  prevScrollLeft = carousel.scrollLeft;
-};
+/*--------------------
+Wheel
+--------------------*/
+const handleMouseWheel = (e) => {
+  scrollY -= e.deltaY * 0.9
+}
 
-const dragging = (e) => {
-  // scrolling images/carousel to left according to mouse pointer
-  if (!isDragStart) return;
-  e.preventDefault();
-  isDragging = true;
-  carousel.classList.add('dragging');
-  positionDiff = (e.pageX || e.touches[0].pageX) - prevPageX;
-  carousel.scrollLeft = prevScrollLeft - positionDiff;
-  showHideIcons();
-};
 
-const dragStop = () => {
-  isDragStart = false;
-  carousel.classList.remove('dragging');
+/*--------------------
+Touch
+--------------------*/
+let touchStart = 0
+let touchX = 0
+let isDragging = false
+const handleTouchStart = (e) => {
+  touchStart = e.clientX || e.touches[0].clientX
+  isDragging = true
+  $menu.classList.add('is-dragging')
+}
+const handleTouchMove = (e) => {
+  if (!isDragging) return
+  touchX = e.clientX || e.touches[0].clientX
+  scrollY += (touchX - touchStart) * 2.5
+  touchStart = touchX
+}
+const handleTouchEnd = () => {
+  isDragging = false
+  $menu.classList.remove('is-dragging')
+}
 
-  if (!isDragging) return;
-  isDragging = false;
-  autoSlide();
-};
 
-carousel.addEventListener('mousedown', dragStart);
-carousel.addEventListener('touchstart', dragStart);
+/*--------------------
+Listeners
+--------------------*/
+$menu.addEventListener('mousewheel', handleMouseWheel)
 
-document.addEventListener('mousemove', dragging);
-carousel.addEventListener('touchmove', dragging);
+$menu.addEventListener('touchstart', handleTouchStart)
+$menu.addEventListener('touchmove', handleTouchMove)
+$menu.addEventListener('touchend', handleTouchEnd)
 
-document.addEventListener('mouseup', dragStop);
-carousel.addEventListener('touchend', dragStop);
+$menu.addEventListener('mousedown', handleTouchStart)
+$menu.addEventListener('mousemove', handleTouchMove)
+$menu.addEventListener('mouseleave', handleTouchEnd)
+$menu.addEventListener('mouseup', handleTouchEnd)
+
+$menu.addEventListener('selectstart', () => { return false })
+
+
+/*--------------------
+Resize
+--------------------*/
+window.addEventListener('resize', () => {
+  menuWidth = $menu.clientWidth
+  itemWidth = $items[0].clientWidth
+  wrapWidth = $items.length * itemWidth
+})
+
+
+/*--------------------
+Render
+--------------------*/
+const render = () => {
+  requestAnimationFrame(render)
+  y = lerp(y, scrollY, .1)
+  dispose(y)
+  
+  scrollSpeed = y - oldScrollY
+  oldScrollY = y
+  
+  gsap.to($items, {
+    skewX: -scrollSpeed * .2,
+    rotate: scrollSpeed * .01,
+    scale: 1 - Math.min(100, Math.abs(scrollSpeed)) * 0.003
+  })
+}
+render()

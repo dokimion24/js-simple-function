@@ -1,48 +1,40 @@
-let sliderContainer = document.querySelector('.slider-container');
-let innerSlider = document.querySelector('.inner-slider');
+const container = document.querySelector('.container');
+const cards = document.querySelector('.cards');
 
-let startX;
-let x;
-let scrollLeft;
-let pressed = false;
+let isPressedDown = false;
 
-sliderContainer.addEventListener('mousedown', (e) => {
-  pressed = true;
-  startX = e.pageX;
-  scrollLeft = sliderContainer.scrollLeft;
+let cursorXSpace;
 
-  sliderContainer.style.cursor = 'grabbing';
+container.addEventListener('mousedown', (e) => {
+  isPressedDown = true;
+  cursorXSpace = e.offsetX - cards.offsetLeft;
+  container.style.cursor = 'grabbing';
 });
 
-sliderContainer.addEventListener('mousemove', (e) => {
-  if (!pressed) return;
+container.addEventListener('mouseup', () => {
+  container.style.cursor = 'grab';
+});
+
+
+
+container.addEventListener('mousemove', (e) => {
+  if (!isPressedDown) return;
   e.preventDefault();
-
-  const x = e.pageX;
-  const scroll = x - startX;
-  sliderContainer.scrollLeft = scrollLeft - scroll;
-
-  console.log(scrollLeft, scroll);
-  console.log(sliderContainer.scrollLeft);
-  // autoSlide();
+  cards.style.left = `${e.offsetX - cursorXSpace}px`;
+  boundCards();
 });
 
-sliderContainer.addEventListener('mouseenter', () => {
-  sliderContainer.style.cursor = 'grab';
-});
+function boundCards() {
+  const container_rect = container.getBoundingClientRect();
+  const cards_rect = cards.getBoundingClientRect();
 
-sliderContainer.addEventListener('mouseup', () => {
-  pressed = false;
-  sliderContainer.style.cursor = 'grab';
-});
-
-sliderContainer.addEventListener('mouseleave', () => {
-  pressed = false;
-  sliderContainer.style.cursor = 'grab';
-});
-
-const autoSlide = () => {
-  if (0 < sliderContainer.scrollLeft) {
-    sliderContainer.scrollLeft = 200;
+  if (parseInt(cards.style.left) > 0) {
+    cards.style.left = 0;
+  } else if (cards_rect.right < container_rect.right - 10) {
+    cards.style.left = `0px`;
   }
-};
+}
+
+setInterval(() => {
+  cards.style.left = `${container.clientWidth}`;
+}, 1000);
