@@ -7,6 +7,7 @@ body .container {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 100px;
 }
 body .container .carousel {
   width: 80%;
@@ -24,8 +25,11 @@ body .container .carousel .slide_item {
   z-index: 0;
 }
 body .container .carousel .slide_item:nth-child(odd) {
-  background-color: #df1;
+  background-color: rgb(255, 251, 17);
 }
 body .container .carousel .slide_item:nth-child(even) {
   background-color: rgb(17, 255, 69);
+}
+body .container .carousel .slide_item_active {
+  z-index: 1;
 }/*# sourceMappingURL=style.css.map */
