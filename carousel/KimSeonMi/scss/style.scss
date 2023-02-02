@@ -8,7 +8,7 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-
+        margin-top: 100px;
         .carousel{
             width: 80%;
             position: relative;
@@ -25,13 +25,15 @@ body {
                 z-index: 0;
               
                 &:nth-child(odd){
-                    background-color: #df1;
+                    background-color: rgb(255, 251, 17);
                 }
                 &:nth-child(even){
                     background-color: rgb(17, 255, 69);
                 }
 
-            
+                &_active {
+                    z-index: 1;
+                }
             }
         }
     }
