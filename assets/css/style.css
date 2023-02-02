@@ -11,4 +11,15 @@ body .container {
 body .container .carousel {
   width: 80%;
   position: relative;
+}
+body .container .carousel .slide_item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 500px;
+  border-radius: 20px;
+  top: 0;
+  z-index: 0;
 }/*# sourceMappingURL=style.css.map */
