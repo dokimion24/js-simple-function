@@ -22,4 +22,10 @@ body .container .carousel .slide_item {
   border-radius: 20px;
   top: 0;
   z-index: 0;
+}
+body .container .carousel .slide_item:nth-child(odd) {
+  background-color: #df1;
+}
+body .container .carousel .slide_item:nth-child(even) {
+  background-color: rgb(17, 255, 69);
 }/*# sourceMappingURL=style.css.map */
