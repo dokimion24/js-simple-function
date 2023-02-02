@@ -7,4 +7,8 @@ body .container {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+body .container .carousel {
+  width: 80%;
+  position: relative;
 }/*# sourceMappingURL=style.css.map */
