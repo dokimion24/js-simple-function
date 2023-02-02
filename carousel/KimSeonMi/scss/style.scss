@@ -8,5 +8,10 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
+
+        .carousel{
+            width: 80%;
+            position: relative;
+        }
     }
 }
