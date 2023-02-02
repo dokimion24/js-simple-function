@@ -1,5 +1,5 @@
 const container = document.querySelector('.container');
-const cards = document.querySelector('.cards');
+const cards = document.querySelector('.items');
 
 let isPressedDown = false;
 
@@ -13,9 +13,8 @@ container.addEventListener('mousedown', (e) => {
 
 container.addEventListener('mouseup', () => {
   container.style.cursor = 'grab';
+  isPressedDown = false;
 });
-
-
 
 container.addEventListener('mousemove', (e) => {
   if (!isPressedDown) return;
@@ -28,13 +27,12 @@ function boundCards() {
   const container_rect = container.getBoundingClientRect();
   const cards_rect = cards.getBoundingClientRect();
 
+  console.log(cards_rect.right, container_rect.right);
+
   if (parseInt(cards.style.left) > 0) {
     cards.style.left = 0;
-  } else if (cards_rect.right < container_rect.right - 10) {
-    cards.style.left = `0px`;
+  }
+  if (cards_rect.right < container_rect.right) {
+    cards.style.left = `-${cards_rect.width - container_rect.width}px`;
   }
 }
-
-setInterval(() => {
-  cards.style.left = `${container.clientWidth}`;
-}, 1000);

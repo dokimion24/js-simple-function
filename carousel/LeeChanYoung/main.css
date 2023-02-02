@@ -16,8 +16,8 @@ img {
   height: 80%;
 }
 
-.slide-container {
-  width: 630px;
+.container {
+  width: 900px;
   height: 300px;
   overflow: hidden;
   position: relative;
@@ -25,7 +25,7 @@ img {
 
 .items {
   display: grid;
-  grid-template-columns: repeat(10, 250px);
+  grid-template-columns: repeat(6, 250px);
   gap: 10px;
   position: absolute;
   top: 0;
@@ -34,6 +34,7 @@ img {
 }
 
 .item {
+  font-size: 50px;
   height: 300px;
   border-radius: 10px;
   border: 1px solid;
