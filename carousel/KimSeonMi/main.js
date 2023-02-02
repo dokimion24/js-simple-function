@@ -1,8 +1,11 @@
-const containerEl = document.querySelector('.slide-container')
-const slideFristEl = document.querySelector('.slide-container > div')
-const slideSecondEl = document.querySelector('.slide-container>:nth-child(2)')
-const slideThirdEl = document.querySelector('.slide-container>:last-child')
+const activeClass =  '_active'
 
+const slidesEls = document.querySelectorAll('silde_item')
+const arrSlidesEls = Array.from(slidesEls)
 
+let curIndex = 0
 
+const moveRigthSlide = () => {
+  arrSlidesEls[curIndex].classList.remove(activeClass)
+}
 
