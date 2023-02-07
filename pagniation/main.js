@@ -106,3 +106,4 @@ btnContainer.addEventListener('click', (e) => {
 window.addEventListener('DOMContentLoaded', init);
 
 
+console.log('test')
