@@ -10,7 +10,7 @@ const displayButtons = (container, pages, activeIndex) => {
       ${pageIndex + 1}
     </button>`;
   });
-  console.log(btns);
+
   btns.push(`<button class="next-btn">next</button>`);
   btns.unshift(`<button class="prev-btn">prev</button>`);
   container.innerHTML = btns.join('');
@@ -37,22 +37,19 @@ const url = 'https://api.github.com/users/jojoldu/followers?per_page=100';
 const fetchFollowers = async () => {
   const response = await fetch(url);
   const data = await response.json();
-  console.log(data);
+
   return data;
 };
 
 const paginate = (followers) => {
+  console.log(followers);
   const itemsPerPage = 10;
-  // numberOfPages = 100 / 10
   const numberOfPages = Math.ceil(followers.length / itemsPerPage);
 
   const newFollowers = Array.from({ length: numberOfPages }, (_, index) => {
-    console.log('numberOfPages', numberOfPages);
-    console.log('length', length);
     const start = index * itemsPerPage;
-    console.log('start', start);
-    console.log(`${start}+${itemsPerPage}`);
-    return followers.slice(start, start + itemsPerPage);
+    const end = start + itemsPerPage;
+    return followers.slice(start, end);
   });
   console.log('newFollowers', newFollowers);
   return newFollowers;
@@ -69,7 +66,6 @@ const setupUI = () => {
 const init = async () => {
   const followers = await fetchFollowers();
   pages = paginate(followers);
-  console.log('pages', pages);
   setupUI();
 };
 
